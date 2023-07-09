@@ -14,6 +14,7 @@ fi
 BACKUP_PATH="/mnt/v1/backup/ssh"
 BACKUP_NAME="ssh.tar.gz"
 RESTORE_PATH="/usr/local/etc/ssh"
+ROOT_PATH="/root/.ssh"
 #
 #
 
@@ -66,14 +67,13 @@ if [ ${choice} == "B" ] || [ ${choice} == "b" ]; then
       echo "mkdir -p ${BACKUP_PATH}"
     fi
   # to backup
-  #tar --exclude=./*.db-* -zcvf /mnt/v1/apps/sonarrbackup.tar.gz ./
-  cd ${CONFIG_PATH}
   echo
-  echo "${CONFIG_PATH}"
   tar czvfP ${BACKUP_PATH}/${BACKUP_NAME} -C /usr/local/etc/ssh .
+  tar czvfP ${BACKUP_PATH}/root_${BACKUP_NAME} -C /root/.ssh .
 chmod 660 ${BACKUP_PATH}/${BACKUP_NAME}
   echo
   echo "Backup complete file located at ${BACKUP_PATH}/${BACKUP_NAME}"
+  echo "Backup complete file located at ${BACKUP_PATH}/root_${BACKUP_NAME}"
   echo
 elif [ $choice == "R" ] || [ $choice == "r" ]; then
     if [ ! -d "${RESTORE_PATH}" ]; then
@@ -84,10 +84,12 @@ elif [ $choice == "R" ] || [ $choice == "r" ]; then
     fi
 
   tar zvxpf ${BACKUP_PATH}/${BACKUP_NAME} -C ${RESTORE_PATH}
+  tar zvxpf ${BACKUP_PATH}/root_${BACKUP_NAME} -C ${ROOT_PATH}
   echo
   echo "tar zvxpf ${BACKUP_PATH}/${BACKUP_NAME} -C ${RESTORE_PATH}"
+  echo "tar zvxpf ${BACKUP_PATH}/${BACKUP_NAME} -C ${ROOT_PATH}"
   echo
-  echo "Restore completed at ${RESTORE_PATH}"
+  echo "Restore completed at ${RESTORE_PATH} and ${ROOT_PATH}"
   echo
 else
   echo

@@ -1,4 +1,4 @@
 BACKUP_PATH="/mnt/v1/backup/ssh"
 BACKUP_NAME="ssh.tar.gz"
 RESTORE_PATH="/usr/local/etc/ssh"
-
+ROOT_PATH="/root/.ssh"
